@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import FriendCard from "./components/FriendCard";
-import Wrapper from "./components/Wrapper";
-import Title from "./components/Title";
+import FriendCard from "./components/FriendCard/FriendCard.js";
+import Wrapper from "./components/Wrapper/Wrapper.js";
+import Nav from "./components/Navbar/Nav.js";
+import Instructions from "./components/Instructions/Instructions.js";
 import friends from "./friends.json";
 import "./App.css";
 
@@ -12,13 +13,13 @@ class App extends Component {
     highScore: 0,
     friends: friends
   };
-
+  // Remebers state, if not clicked before,  If clicked before, alert You Lost
   randomRender = id => {
     this.state.friends.forEach((image) => {
       if (image.id === id) {
         if (image.clicked) {
           alert("You Lost! You previously selected this card.");
-          this.setState({})
+          this.setState({});
           this.resetGame();
           return false;
         }
@@ -33,6 +34,7 @@ class App extends Component {
     });
   }
 
+  // Random shuffle method to be attached to the card json file
   randomOrganize = (array) => {
     let copy = [],
       n = array.length,
@@ -48,18 +50,21 @@ class App extends Component {
     this.setState({ friends: copy });
   }
 
+  // Score increments method to be called when random cards and no duplicate is clicked
   updateScore = () => {
     this.setState((newState) => ({
       score: newState.score + 1
     }), () => this.winning());
   }
 
+  // High score auto increments as long as it beats the current state score
   newHighScore = () => {
     this.setState((newState) => ({
       highScore: newState.score
     }));
   }
 
+  // When you click all the cards without clicking the same card, alert the user they won
   winning = () => {
     if (this.state.score === this.state.friends.length) {
       alert("You WIN!");
@@ -73,6 +78,7 @@ class App extends Component {
     }
   }
 
+  // When you lose, this method will be called to reset all the clicked states back to false
   resetGame = () => {
     this.state.friends.forEach((image) => {
       image.clicked = false;
@@ -86,14 +92,14 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <Nav score={this.state.score} highScore={this.state.highScore} />
-        <GameInstructions />
+        <Instructions />
+        <Nav score={this.state.score} highScore={this.state.highScore} ></Nav>
         {this.state.friends.map(friend => {
           return <FriendCard
-          {...friend}
-          key={friend.id}
-          randomRender={this.randomRender}
-          randomOrganize={() => this.randomOrganize(this.state.friends)}
+            {...friend}
+            key={friend.id}
+            randomRender={this.randomRender}
+            randomOrganize={() => this.randomOrganize(this.state.friends)}
           />;
         })}
       </Wrapper>
