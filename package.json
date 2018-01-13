@@ -2,7 +2,7 @@
   "name": "memory-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/ShaunBens/react-memory",
+  "homepage": "https://shaunbens.github.io/react-memory/",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "gh-pages": "^1.1.0",
